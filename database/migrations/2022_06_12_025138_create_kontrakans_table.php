@@ -17,7 +17,6 @@ class CreateKontrakansTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('jenis_kontrakan_id');
-            $table->foreignId('kontrakan_detail_id');
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@ class CreateKontrakanDetailsTable extends Migration
     {
         Schema::create('kontrakan_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kontrakan_isi_id');
+            $table->foreignId('kontrakan_id');
             $table->string('nomor');
             $table->string('status');
             $table->timestamps();

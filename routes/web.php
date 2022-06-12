@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\JenisKontrakan;
+use App\Models\Kontrakan;
+use App\Models\KontrakanDetail;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +18,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    // dd(User::with('user_profile')->whereId('1')->first());
+    // dd(JenisKontrakan::with('kontrakan')->whereId('2')->first());
+    // dd(Kontrakan::with(['kontrakan_detail', 'jenis_kontrakan'])->whereId('2')->first());
+    dd(KontrakanDetail::with('kontrakan_isi')->whereId('2')->first());
 });

@@ -16,7 +16,7 @@ class KontrakanFactory extends Factory
         return [
             'user_id' => mt_rand(1, 2),
             'jenis_kontrakan_id' => mt_rand(1, 2),
-            'kontrakan_detail_id' => mt_rand(1, 2),
+            // 'kontrakan_detail_id' => mt_rand(1, 2),
         ];
     }
 }

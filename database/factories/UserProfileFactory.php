@@ -15,10 +15,10 @@ class UserProfileFactory extends Factory
     {
         $randomNumber = rand(1, 100);
         return [
-            'user_id' => mt_rand(1, 2),
+            'user_id' => mt_rand(1, 5),
             'pekerjaan' => $this->faker->jobTitle(),
             'no_telp' => $this->faker->phoneNumber(),
-            'ktp_nik' => $this->faker->unique()->randomNumber(16),
+            'ktp_nik' => mt_rand(1000000000, 200000000000),
             'ktp_image' => "https://picsum.photos/id/{$randomNumber}/200/300",
             'avatar' => "https://picsum.photos/id/{$randomNumber}/200/300",
 

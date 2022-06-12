@@ -7,6 +7,7 @@ use App\Models\Kontrakan;
 use App\Models\KontrakanDetail;
 use App\Models\KontrakanIsi;
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -24,5 +25,6 @@ class DatabaseSeeder extends Seeder
         KontrakanDetail::factory(4)->create();
         KontrakanIsi::factory(4)->create();
         Kontrakan::factory(6)->create();
+        UserProfile::factory(5)->create();
     }
 }
