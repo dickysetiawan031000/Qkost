@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\JenisKontrakan;
+use Illuminate\Http\Request;
+
 use App\Http\Requests\StoreJenisKontrakanRequest;
 use App\Http\Requests\UpdateJenisKontrakanRequest;
 
@@ -15,7 +17,9 @@ class JenisKontrakanController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.jenis-kontrakan.index', [
+            'jenis' => JenisKontrakan::get()
+        ]);
     }
 
     /**
@@ -25,7 +29,7 @@ class JenisKontrakanController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.jenis-kontrakan.create');
     }
 
     /**
@@ -34,9 +38,21 @@ class JenisKontrakanController extends Controller
      * @param  \App\Http\Requests\StoreJenisKontrakanRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreJenisKontrakanRequest $request)
+    public function store(Request $request)
     {
-        //
+        // dd($request);
+        $validateData = $request->validate(
+            [
+                'nama' => ['required', 'max:255'],
+                'alamat' => ['required', 'max:255'],
+                'harga' => ['required', 'max:12']
+            ]
+        );
+
+        JenisKontrakan::create($validateData);
+
+        // dd($request);
+        return redirect('/dashboard/jenis-kontrakan')->with('success', 'Jenis Kontrakan telah berhasil ditambahkan !');
     }
 
     /**
@@ -58,7 +74,9 @@ class JenisKontrakanController extends Controller
      */
     public function edit(JenisKontrakan $jenisKontrakan)
     {
-        //
+        return view('dashboard.jenis-kontrakan.edit', [
+            'jenisKontrakan' => $jenisKontrakan
+        ]);
     }
 
     /**
@@ -68,9 +86,18 @@ class JenisKontrakanController extends Controller
      * @param  \App\Models\JenisKontrakan  $jenisKontrakan
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateJenisKontrakanRequest $request, JenisKontrakan $jenisKontrakan)
+    public function update(Request $request, JenisKontrakan $jenisKontrakan)
     {
-        //
+        $rules = [
+            'nama' => ['required', 'max:255'],
+            'alamat' => ['required', 'max:255'],
+            'harga' => ['required', 'max:12']
+        ];
+
+        $validateData = $request->validate($rules);
+        JenisKontrakan::where('id', $jenisKontrakan->id)
+            ->update($validateData);
+        return redirect('/dashboard/jenis-kontrakan')->with('success', 'Jenis Kontrakan telah berhasil diubah !');
     }
 
     /**
@@ -81,6 +108,7 @@ class JenisKontrakanController extends Controller
      */
     public function destroy(JenisKontrakan $jenisKontrakan)
     {
-        //
+        JenisKontrakan::destroy($jenisKontrakan->id);
+        return redirect('/dashboard/jenis-kontrakan');
     }
 }
