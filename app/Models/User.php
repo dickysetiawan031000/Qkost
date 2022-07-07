@@ -21,6 +21,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'role',
         'password',
     ];
 
@@ -51,5 +52,19 @@ class User extends Authenticatable
     public function user_profile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
+    }
+    // public function user(): HasOne
+    // {
+    //     return $this->hasOne(Kontrakan::class);
+    // }
+
+    /**
+     * Get the kontrakan_user associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function kontrakan_user(): HasOne
+    {
+        return $this->hasOne(KontrakanUser::class);
     }
 }
