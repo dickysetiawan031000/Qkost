@@ -18,6 +18,16 @@ class Kontrakan extends Model
         'jenis_kontrakan_id'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($kontrakan) { // before delete() method call this
+            $kontrakan->kontrakan_detail()->delete();
+            // do the rest of the cleanup...
+        });
+    }
+
     /**
      * Get the kontrakan_detail associated with the Kontrakan
      *
@@ -36,5 +46,19 @@ class Kontrakan extends Model
     public function jenis_kontrakan(): BelongsTo
     {
         return $this->belongsTo(JenisKontrakan::class, 'jenis_kontrakan_id');
+    }
+    // public function user(): BelongsTo
+    // {
+    //     return $this->belongsTo(User::class, 'user_id');
+    // }
+
+    /**
+     * Get the kontrakan_user associated with the Kontrakan
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function kontrakan_user(): HasOne
+    {
+        return $this->hasOne(KontrakanUser::class);
     }
 }
