@@ -1,10 +1,20 @@
 <?php
 
-use App\Http\Controllers\JenisKontrakanController;
-use App\Models\JenisKontrakan;
-use App\Models\Kontrakan;
-use App\Models\KontrakanDetail;
-use App\Models\User;
+use App\Http\Controllers\admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\admin\JenisKontrakanController;
+use App\Http\Controllers\admin\KontrakanController as AdminKontrakanController;
+use App\Http\Controllers\admin\KontrakanDetailController;
+use App\Http\Controllers\admin\KontrakanIsiController;
+use App\Http\Controllers\admin\KontrakanUserController;
+use App\Http\Controllers\admin\UserController as AdminUserController;
+use App\Http\Controllers\front\FrontController;
+
+use App\Http\Controllers\user\auth\UserLoginController;
+use App\Http\Controllers\user\auth\UserRegistrationController;
+use App\Http\Controllers\user\CheckProfileController;
+use App\Http\Controllers\user\DashboardController;
+use App\Http\Controllers\user\UserProfileController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,8 +32,60 @@ use Illuminate\Support\Facades\Route;
 // dd(Kontrakan::with(['kontrakan_detail', 'jenis_kontrakan'])->whereId('2')->first());
 // dd(KontrakanDetail::with('kontrakan_isi')->whereId('2')->first());
 
-Route::get('/', function () {
-    return view('welcome');
+//Front
+Route::get('/', [FrontController::class, 'index'])->name('landing-page');
+Route::get('/tentang-kami', [FrontController::class, 'about_us'])->name('about-us-page');
+Route::get('/kontak', [FrontController::class, 'contact'])->name('contact-page');
+Route::get('/harga', [FrontController::class, 'price'])->name('price-page');
+
+
+Route::get('/login', [UserLoginController::class, 'index']);
+Route::post('/login', [UserLoginController::class, 'authenticate']);
+Route::post('/logout', [UserLoginController::class, 'logout']);
+Route::resource('/registrasi', UserRegistrationController::class);
+
+
+Route::group(['middleware' => ['auth', 'checkRole:2']], function () {
+    //User
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::resource('user-profile', UserProfileController::class);
+        Route::resource('/dashboard', DashboardController::class);
+        Route::resource('/myprofile', CheckProfileController::class);
+    });
 });
 
-Route::resource('/dashboard/jenis-kontrakan', JenisKontrakanController::class);
+Route::group(['middleware' => ['auth', 'checkRole:1']], function () {
+    //Admin
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('/dashboard', AdminDashboardController::class);
+        Route::resource('/jenis-kontrakan', JenisKontrakanController::class);
+        Route::resource('/user', AdminUserController::class);
+        Route::resource('/kontrakan', AdminKontrakanController::class);
+        Route::resource('/kontrakan-user', KontrakanUserController::class);
+        Route::resource('/kontrakan-detail', KontrakanDetailController::class);
+        Route::resource('/kontrakan-isi', KontrakanIsiController::class);
+    });
+});
+
+
+
+
+
+// Route::get('/user/profile', function () {
+//     return view('user.profile.index');
+// });
+
+// Route::get('/user/data-diri', function () {
+//     return view('user.data-diri');
+// })->middleware('auth');
+
+// Route::get('/user/index', function () {
+//     return view('user.index');
+// })->middleware('auth')->name('user-index');
+
+// Route::resource('/dashboard/kontrakan-detail', KontrakanDetailController::class);
+// Route::resource('/dashboard/kontrakan', KontrakanController::class);
+// Route::resource('/login', LoginController::class, 'authenticate');
+
+
+// Route::resource('/dashboard', UserProfileController::class);
