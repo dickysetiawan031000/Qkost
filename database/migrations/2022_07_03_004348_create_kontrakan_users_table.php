@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKontrakansTable extends Migration
+class CreateKontrakanUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateKontrakansTable extends Migration
      */
     public function up()
     {
-        Schema::create('kontrakans', function (Blueprint $table) {
+        Schema::create('kontrakan_users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('jenis_kontrakan_id');
+            $table->foreignId('user_id');
+            $table->foreignId('kontrakan_id');
+            $table->string('harga');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateKontrakansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kontrakans');
+        Schema::dropIfExists('kontrakan_users');
     }
 }
