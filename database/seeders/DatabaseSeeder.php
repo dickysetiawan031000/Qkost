@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         User::factory(5)->create();
 
         JenisKontrakan::factory(2)->create();
-        KontrakanDetail::factory(4)->create();
+        KontrakanDetail::factory(6)->create();
         KontrakanIsi::factory(4)->create();
         Kontrakan::factory(6)->create();
         UserProfile::factory(5)->create();

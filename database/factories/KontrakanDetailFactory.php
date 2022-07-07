@@ -14,8 +14,8 @@ class KontrakanDetailFactory extends Factory
     public function definition()
     {
         return [
-            'kontrakan_id' => mt_rand(1, 2),
-            'nomor' => mt_rand(1, 2),
+            'kontrakan_id' => mt_rand(1, 6),
+            'nomor' => mt_rand(1, 20),
             'status' => $this->faker->randomElement(['active', 'tidak aktif']),
 
         ];
