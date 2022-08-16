@@ -7,6 +7,7 @@ use App\Models\JenisKontrakan;
 use App\Models\Kontrakan;
 use App\Models\KontrakanDetail;
 use App\Models\KontrakanUser;
+use App\Models\Tagihan;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,7 @@ class KontrakanUserController extends Controller
     public function index()
     {
         return view('admin.kontrakan-user.index', [
-            'kontrakan_user' => KontrakanUser::with('user', 'kontrakan.jenis_kontrakan')->get()
+            'kontrakan_user' => KontrakanUser::with('user', 'kontrakan.jenis_kontrakan', 'kontrakan.kontrakan_detail')->get()
         ]);
     }
 
@@ -35,6 +36,8 @@ class KontrakanUserController extends Controller
         return view('admin.kontrakan-user.create', [
             'users' => User::has('user_profile')->doesntHave('kontrakan_user')->get(),
             'kontrakans' => KontrakanDetail::with('kontrakan.jenis_kontrakan')->whereDoesntHave('kontrakan.kontrakan_user')->get()
+            // 'users' => User::has('user_profile')->get(),
+            // 'kontrakans' => KontrakanDetail::with('kontrakan.jenis_kontrakan')->get()
         ]);
     }
 
@@ -60,6 +63,10 @@ class KontrakanUserController extends Controller
             'user_id' => $validatedData['user_id'],
             'harga' => $harga->jenis_kontrakan->harga
         ]);
+
+        // Tagihan::create([
+        //     'harga' => $harga->jenis_kontrakan->harga
+        // ]);
 
         KontrakanDetail::whereKontrakanId($validatedData['kontrakan_id'])->update([
             'status' => 'isi'

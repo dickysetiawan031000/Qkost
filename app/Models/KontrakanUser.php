@@ -15,7 +15,10 @@ class KontrakanUser extends Model
     protected $fillable = [
         'user_id',
         'kontrakan_id',
-        'harga'
+        'harga',
+        // 'transaksi_id',
+        // 'pembayaran_ke',
+        // 'jatuh_tempo',
     ];
 
     /**
@@ -36,5 +39,19 @@ class KontrakanUser extends Model
     public function kontrakan(): BelongsTo
     {
         return $this->belongsTo(Kontrakan::class);
+    }
+
+    // public function tagihan(): BelongsTo
+    // {
+    //     return $this->belongsTo(Tagihan::class);
+    // }
+    public function tagihan()
+    {
+        return $this->hasMany(Tagihan::class);
+    }
+
+    public function transaksi()
+    {
+        return $this->belongsTo(Transaksi::class);
     }
 }

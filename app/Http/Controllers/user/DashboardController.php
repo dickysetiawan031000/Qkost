@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\user;
 
+use App\Http\Controllers\admin\KontrakanUserController;
 use App\Http\Controllers\Controller;
+use App\Models\Kontrakan;
+use App\Models\KontrakanUser;
+use App\Models\Transaksi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +25,15 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('user.index');
+        $total = Transaksi::where('transaction_status', 'settlement')->get();
+        $a = KontrakanUser::with('transaksi')->where('user_id', auth()->user()->id)->get();
+        // $b = Transaksi::with('kontrakan_user')->where('id', $kontrakan_user->transaksi_id);
+
+        // dd($b);
+
+        return view('user.index', [
+            'kontrakanUser' => KontrakanUser::where('user_id', auth()->user()->id)->first(),
+        ]);
     }
 
     /**

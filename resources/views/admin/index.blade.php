@@ -1,40 +1,64 @@
-@extends('admin.layouts.main')
+@extends('layouts.main')
 
 @section('container')
 
-@if(session()->has('success'))
-
-<div class="alert alert-warning alert-dismissible fade show col-lg-6 mt-4" role="alert">
-    <strong>{{ session('success') }}</strong>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
-
-
-<div class="container">
-    <div class="row">
-        <div class="card col-lg-4" style="width: 25%">
-            <div class="card-body">
-                <h5 class="card-title">Total User</h5>
-                <h3 class="card-text"> {{ $userCount }}</h3>
-                <p class="text-end"><a href="{{ route('admin.user.index') }}" class=""><i
-                            class="bi bi-arrow-right"></i></a>
-                </p>
+<!-- Main Content -->
+<main class="content">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <div>
+                <button class="sidebarCollapseDefault btn p-0 border-0 d-none d-md-block" aria-label="Hamburger Button">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <button data-bs-toggle="offcanvas" data-bs-target=".sidebar" aria-controls="sidebar"
+                    aria-label="Hamburger Button" class="sidebarCollapseMobile btn p-0 border-0 d-block d-md-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+            <div class="d-flex align-items-center justify-content-end gap-4">
+                <img src="/image/admin.png" alt="Photo Profile" class="avatar" />
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="card col-lg-4" style="width: 25%">
-            <div class="card-body">
-                <h5 class="card-title">Jenis Kontrakan</h5>
-                <h3 class="card-text"> {{ $jenisCount }}</h3>
-                <p class="text-end"><a href="{{ route('admin.jenis-kontrakan.index') }}" class=""><i
-                            class="bi bi-arrow-right"></i></a>
-                </p>
+    </nav>
+    <section class="p-3">
+        <header>
+            <h3>Overview</h3>
+            <p>Manage data for growth</p>
+        </header>
+        <div class="information d-flex flex-column gap-5">
+            <div class="row px-1 mb-2 gap-5">
+                <div class="col-xl-4 col-12 card debit">
+                    <p>Pemasukan</p>
+                    <h2>{{ \App\Utilities\Helpers::formatCurrency($total, 'Rp.') }}</h2>
+                    <div></div>
+                </div>
+                <div class="col-xl-4 col-12 card balance">
+                    <p>Penyewa</p>
+                    <h2>{{ $userCount }}</h2>
+                    <div>
+                        <a href="{{ route('admin.user.index') }}"> <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-12 card balance">
+                    <p>Jenis</p>
+                    <h2>{{ $jenisCount }}</h2>
+                    <div>
+                        <a href="{{ route('admin.jenis-kontrakan.index') }}"> <i
+                                class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-12 card balance">
+                    <p>Jenis</p>
+                    <h2>$90,500,000</h2>
+                    <div>
+                        <p class="m-0 fw-bold">+22%</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-</div>
+    </section>
+</main>
 
 @endsection

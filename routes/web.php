@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\KontrakanController as AdminKontrakanController;
 use App\Http\Controllers\admin\KontrakanDetailController;
 use App\Http\Controllers\admin\KontrakanIsiController;
 use App\Http\Controllers\admin\KontrakanUserController;
+use App\Http\Controllers\admin\TagihanController;
 use App\Http\Controllers\admin\UserController as AdminUserController;
 use App\Http\Controllers\front\FrontController;
 
@@ -13,8 +14,11 @@ use App\Http\Controllers\user\auth\UserLoginController;
 use App\Http\Controllers\user\auth\UserRegistrationController;
 use App\Http\Controllers\user\CheckProfileController;
 use App\Http\Controllers\user\DashboardController;
+use App\Http\Controllers\user\KontrakanUserController as UserKontrakanUserController;
+use App\Http\Controllers\user\TagihanController as UserTagihanController;
+use App\Http\Controllers\user\TransaksiController;
 use App\Http\Controllers\user\UserProfileController;
-
+use App\Models\KontrakanUser;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,6 +48,8 @@ Route::post('/login', [UserLoginController::class, 'authenticate']);
 Route::post('/logout', [UserLoginController::class, 'logout']);
 Route::resource('/registrasi', UserRegistrationController::class);
 
+// Route::get('payment/success', [UserKontrakanUserController::class, 'midtransCallback']);
+// Route::post('payment/success', [UserKontrakanUserController::class, 'midtransCallback']);
 
 Route::group(['middleware' => ['auth', 'checkRole:2']], function () {
     //User
@@ -51,6 +57,11 @@ Route::group(['middleware' => ['auth', 'checkRole:2']], function () {
         Route::resource('user-profile', UserProfileController::class);
         Route::resource('/dashboard', DashboardController::class);
         Route::resource('/myprofile', CheckProfileController::class);
+        // Route::resource('/tagihan', UserTagihanController::class);
+        Route::resource('/kontrakan-user', UserKontrakanUserController::class);
+        Route::resource('/transaksi', TransaksiController::class);
+        // Route::post('/payment', [TransaksiController::class, 'store'])->name('payment');
+        // Route::get('/kontrakan-user/getSnapRedirect/{id}', [UserKontrakanUserController::class, 'getSnapRedirect']);
     });
 });
 
@@ -64,6 +75,7 @@ Route::group(['middleware' => ['auth', 'checkRole:1']], function () {
         Route::resource('/kontrakan-user', KontrakanUserController::class);
         Route::resource('/kontrakan-detail', KontrakanDetailController::class);
         Route::resource('/kontrakan-isi', KontrakanIsiController::class);
+        Route::resource('/tagihan', TagihanController::class);
     });
 });
 

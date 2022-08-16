@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\JenisKontrakan;
+use App\Models\Transaksi;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -18,10 +19,13 @@ class DashboardController extends Controller
     {
         $userCount = User::count();
         $jenisCount = JenisKontrakan::count();
+        $total =  Transaksi::where('transaction_status', 'settlement')->get()->sum('gross_amount');
+
         return view('admin.index', compact(
             [
                 'userCount',
-                'jenisCount'
+                'jenisCount',
+                'total'
             ]
         ));
     }
