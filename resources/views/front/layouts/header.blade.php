@@ -2,21 +2,19 @@
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-                    <use xlink:href="#bootstrap" />
-                </svg>
+                <img src="/image/logo.png" alt="Logo" width="40" height="40" />
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="/tentang-kami" class="nav-link px-2 link-secondary">Tentang Kami</a></li>
-                <li><a href="/kontak" class="nav-link px-2 link-dark">Kontak</a></li>
+                <li><a href="{{ route('kontak-kami.create') }}" class="nav-link px-2 link-dark">Kontak Kami</a>
+                </li>
                 <li><a href="/harga" class="nav-link px-2 link-dark">Harga</a></li>
             </ul>
 
 
             <div class="dropdown text-end">
-                <a href="/login" class="btn">Masuk</a>
-                <a href="{{ route('registrasi.index') }}" class="btn btn-dark">Register</a>
+                <a href="/login" class="btn btn-dark" style="background-color: #3844ac">Masuk</a>
             </div>
         </div>
     </div>

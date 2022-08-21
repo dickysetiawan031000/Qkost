@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\user\auth;
+namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\KontakKami;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
-class UserRegistrationController extends Controller
+class KontakKamiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +15,7 @@ class UserRegistrationController extends Controller
      */
     public function index()
     {
-        return view('front.auth.user-registration');
+        //
     }
 
     /**
@@ -26,7 +25,7 @@ class UserRegistrationController extends Controller
      */
     public function create()
     {
-        //
+        return view('front.kontak-kami');
     }
 
     /**
@@ -37,17 +36,18 @@ class UserRegistrationController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request['role']);
-        $validateData = $request->validate([
-            'name' => ['required', 'max:255', 'min:3'],
-            'email' => ['required', 'max:255', 'min:3', 'email', 'unique:users'],
-            'password' => ['required', 'min:8', 'max:255'],
-        ]);
-        $validateData['password'] = Hash::make($validateData['password']);
-        $validateData['role'] = '2';
+        $validateData = $request->validate(
+            [
+                'nama' => ['required', 'max:255'],
+                'no_telp' => ['required', 'max:255'],
+                'email' => ['required', 'email'],
+                'subjek' => ['required'],
+                'desc' => ['required'],
+            ]
+        );
 
-        User::create($validateData);
-        return redirect('/login')->with('success', 'Akun Berhasil di buat, Mohon menunggu untuk di aktivasi !');
+        KontakKami::create($validateData);
+        return back()->with('success', 'Data berhasil dikirim !');
     }
 
     /**

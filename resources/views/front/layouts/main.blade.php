@@ -24,6 +24,8 @@
 
     <!-- Custom styles for this template -->
     <link href="/css/sidebars.css" rel="stylesheet">
+    <link href="/css/pricing.css" rel="stylesheet">
+    <link href="/css/cover.css" rel="stylesheet">
 </head>
 
 <body>

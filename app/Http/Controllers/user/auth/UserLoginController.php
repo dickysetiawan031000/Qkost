@@ -26,20 +26,23 @@ class UserLoginController extends Controller
             'password' => ['required']
         ]);
 
-
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            if (User::where('id', Auth::id())->first()->role == '1') {
-                return redirect()->route('admin.dashboard.index');
-            } else if (User::where('id', Auth::id())->first()->role == '2') {
-                return redirect()->route('user.dashboard.index');
-            }
+            if (auth()->user()->status == 'aktif') {
+                if (User::where('id', Auth::id())->first()->role == '1') {
+                    return redirect()->route('admin.dashboard.index');
+                } else if (User::where('id', Auth::id())->first()->role == '2') {
+                    return redirect()->route('user.dashboard.index');
+                }
 
-            return redirect()->intended('/user-profile');
+                return redirect()->intended('/user/user-profile');
+            } else {
+                return back()->with('menunggu verifikasi', 'Akun anda harus diverifikasi terlebih dahulu oleh admin!');
+            }
         }
 
-        return back()->with('loginError', 'Login Failed!');
+        return back()->with('loginError', 'Login Gagal!');
     }
 
     public function logout(Request $request)

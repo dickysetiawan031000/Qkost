@@ -50,10 +50,31 @@
                 </div>
 
                 <div class="col-xl-4 col-12 card balance">
-                    <p>Jenis</p>
-                    <h2>$90,500,000</h2>
+                    <p>Kamar</p>
+                    <h2>{{ $kamar }}</h2>
                     <div>
-                        <p class="m-0 fw-bold">+22%</p>
+                        <a href="{{ route('admin.kontrakan.index') }}"> <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-12 card balance">
+                    <p>Penyewaan</p>
+                    <h2>{{ $ku }}</h2>
+                    <div>
+                        <a href="{{ route('admin.kontrakan-user.index') }}"> <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-12 card balance">
+                    <p>Tagihan</p>
+                    <h2>{{ $tagihan }}</h2>
+                    <div>
+                        <a href="{{ route('admin.tagihan.index') }}"> <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-12 card balance">
+                    <p>Kontak Kami</p>
+                    <h2>{{ $kk }}</h2>
+                    <div>
+                        <a href="{{ route('admin.kontak-kami.index') }}"> <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>

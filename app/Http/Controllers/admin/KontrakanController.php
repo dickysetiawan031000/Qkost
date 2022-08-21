@@ -115,6 +115,9 @@ class KontrakanController extends Controller
     {
         Kontrakan::destroy($kontrakan->id);
 
+        // $register_patient->testResult ? $register_patient->testResult->delete() : $register_patient->delete();
+        $kontrakan->kontrakan_user ? $kontrakan->kontrakan_user->delete() : $kontrakan->delete();
+
         return redirect()->route('admin.kontrakan.index');
     }
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Models\KontakKami;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class LoginController extends Controller
+class KontakKamiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,45 +15,9 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return view('login.index');
-    }
-
-    public function authenticate(Request $request)
-    {
-        // $test = User::with('user_profiles')->where('user_id', $user->id)->get();
-        // $test = User::with('user_profile')->whereId($request->id)->get();
-        $test = User::with('user_profile')->whereId(Auth::id())->first();
-
-
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required']
+        return view('admin.kontak-kami.index', [
+            'kontaks' => KontakKami::get()
         ]);
-
-
-
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            if (User::has('user_profile')->whereId(Auth::id())->first()) {
-                return redirect()->route('user-index');
-            }
-
-            return redirect()->intended('/user/user-profile');
-        }
-
-        return back()->with('loginError', 'Login Failed!');
-    }
-
-    public function logout(Request $request)
-    {
-        Auth::logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect('/');
     }
 
     /**
@@ -63,7 +27,6 @@ class LoginController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -117,8 +80,9 @@ class LoginController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(KontakKami $kontakKami)
     {
-        //
+        KontakKami::destroy($kontakKami->id);
+        return redirect()->route('admin.kontak-kami.index')->with('delete', 'Data berhasil dihapus !');
     }
 }

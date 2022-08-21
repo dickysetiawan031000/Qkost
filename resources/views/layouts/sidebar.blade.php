@@ -44,6 +44,16 @@
                 <i class="fa-solid fa-file-invoice-dollar"></i>
                 &nbsp; &nbsp;Tagihan
             </a>
+            <a href="{{ route('admin.kontak-kami.index') }}"
+                class="item-menu {{ Request::is('admin/kontak-kami*') ? 'active' : '' }}">
+                <i class="fa-solid fa-phone"></i>
+                &nbsp; &nbsp;Kontak
+            </a>
+            <form action="/logout" method="post">
+                @csrf
+                <button type="submit" class="item-menu border-0" style="background-color:rgba(0, 0, 0, 0)">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp; &nbsp; Logout</button>
+            </form>
 
             @endif
 
@@ -58,16 +68,21 @@
                 <i class="fa-solid fa-credit-card"></i>
                 &nbsp; &nbsp;Transaksi
             </a>
+            <form action="/logout" method="post">
+                @csrf
+                <button type="submit" class="item-menu border-0" style="background-color:rgba(0, 0, 0, 0)">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp; &nbsp; Logout</button>
+            </form>
             @endif
 
         </div>
-        <div class="menu">
+        {{-- <div class="menu">
             <p>Others</p>
             <form action="/logout" method="post">
                 @csrf
                 <button type="submit" class="item-menu border-0" style="background-color:rgba(0, 0, 0, 0)">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp; &nbsp; Logout</button>
             </form>
-        </div>
+        </div> --}}
     </div>
 </nav>

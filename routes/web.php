@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\admin\JenisKontrakanController;
+use App\Http\Controllers\admin\KontakKamiController as AdminKontakKamiController;
 use App\Http\Controllers\admin\KontrakanController as AdminKontrakanController;
 use App\Http\Controllers\admin\KontrakanDetailController;
 use App\Http\Controllers\admin\KontrakanIsiController;
@@ -9,7 +10,7 @@ use App\Http\Controllers\admin\KontrakanUserController;
 use App\Http\Controllers\admin\TagihanController;
 use App\Http\Controllers\admin\UserController as AdminUserController;
 use App\Http\Controllers\front\FrontController;
-
+use App\Http\Controllers\front\KontakKamiController;
 use App\Http\Controllers\user\auth\UserLoginController;
 use App\Http\Controllers\user\auth\UserRegistrationController;
 use App\Http\Controllers\user\CheckProfileController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\user\TagihanController as UserTagihanController;
 use App\Http\Controllers\user\TransaksiController;
 use App\Http\Controllers\user\UserProfileController;
 use App\Models\KontrakanUser;
+use Database\Factories\TagihanFactory;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,17 +41,15 @@ use Illuminate\Support\Facades\Route;
 //Front
 Route::get('/', [FrontController::class, 'index'])->name('landing-page');
 Route::get('/tentang-kami', [FrontController::class, 'about_us'])->name('about-us-page');
-Route::get('/kontak', [FrontController::class, 'contact'])->name('contact-page');
+// Route::get('/kontak-kami', [FrontController::class, 'contact'])->name('contact-page');
 Route::get('/harga', [FrontController::class, 'price'])->name('price-page');
 
+Route::resource('/kontak-kami', KontakKamiController::class);
 
 Route::get('/login', [UserLoginController::class, 'index']);
 Route::post('/login', [UserLoginController::class, 'authenticate']);
 Route::post('/logout', [UserLoginController::class, 'logout']);
 Route::resource('/registrasi', UserRegistrationController::class);
-
-// Route::get('payment/success', [UserKontrakanUserController::class, 'midtransCallback']);
-// Route::post('payment/success', [UserKontrakanUserController::class, 'midtransCallback']);
 
 Route::group(['middleware' => ['auth', 'checkRole:2']], function () {
     //User
@@ -60,8 +60,6 @@ Route::group(['middleware' => ['auth', 'checkRole:2']], function () {
         // Route::resource('/tagihan', UserTagihanController::class);
         Route::resource('/kontrakan-user', UserKontrakanUserController::class);
         Route::resource('/transaksi', TransaksiController::class);
-        // Route::post('/payment', [TransaksiController::class, 'store'])->name('payment');
-        // Route::get('/kontrakan-user/getSnapRedirect/{id}', [UserKontrakanUserController::class, 'getSnapRedirect']);
     });
 });
 
@@ -71,11 +69,16 @@ Route::group(['middleware' => ['auth', 'checkRole:1']], function () {
         Route::resource('/dashboard', AdminDashboardController::class);
         Route::resource('/jenis-kontrakan', JenisKontrakanController::class);
         Route::resource('/user', AdminUserController::class);
+        Route::get('user/accepted/{id}', [AdminUserController::class, 'accepted']);
+        Route::get('user/rejected/{id}', [AdminUserController::class, 'rejected']);
         Route::resource('/kontrakan', AdminKontrakanController::class);
         Route::resource('/kontrakan-user', KontrakanUserController::class);
         Route::resource('/kontrakan-detail', KontrakanDetailController::class);
         Route::resource('/kontrakan-isi', KontrakanIsiController::class);
         Route::resource('/tagihan', TagihanController::class);
+        Route::get('tagihan/settlement/{id}', [TagihanController::class, 'settlement']);
+        Route::get('tagihan/rejected/{id}', [TagihanController::class, 'rejected']);
+        Route::resource('/kontak-kami', AdminKontakKamiController::class);
     });
 });
 

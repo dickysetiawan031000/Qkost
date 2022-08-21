@@ -91,14 +91,21 @@
                                     <tbody>
                                         <tr>
                                             <td>Jenis Kontrakan</td>
-                                            <td></td>
+                                            <td>{{ $users->kontrakan_user->kontrakan->jenis_kontrakan->nama ?? 'Belum
+                                                melakukan Penyewaan' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Alamat</td>
+                                            <td>{{ $users->kontrakan_user->kontrakan->jenis_kontrakan->alamat ?? 'Belum
+                                                melakukan Penyewaan' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Harga</td>
-                                            <td></td>
+                                            <td>{{
+                                                \App\Utilities\Helpers::formatCurrency($users->kontrakan_user->harga ??
+                                                0,
+                                                'Rp.') }}
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

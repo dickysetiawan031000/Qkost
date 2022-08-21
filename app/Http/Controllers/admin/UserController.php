@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -18,8 +19,36 @@ class UserController extends Controller
         // $test = User::with('user_profile')->get();
         // dd($test);
         return view('admin.user.index', [
-            'users' => User::has('user_profile')->where('role', '2')->get()
+            'users' => User::where('role', 2)->get()
         ]);
+    }
+
+    public function accepted($id)
+    {
+        $user = User::where('id', $id)->first();
+        // dd($user);
+
+        if ($user->status == 'Menunggu Verifikasi' || $user->status == 'tidak aktif') {
+
+            User::where('id', $id)->update(['status' => 'aktif']);
+            return redirect()->route('admin.user.index')->with('accept', 'User berhasil diaktifkan!');
+        } else if ($user->status == 'aktif') {
+            return redirect()->route('admin.user.index')->with('allreadyactive', 'User sudah aktif!');
+        }
+    }
+
+    public function rejected($id)
+    {
+        $user = User::where('id', $id)->first();
+        // dd($user);
+
+        if ($user->status == 'Menunggu Verifikasi' || $user->status == 'aktif') {
+
+            User::where('id', $id)->update(['status' => 'tidak aktif']);
+            return redirect()->route('admin.user.index')->with('reject', 'User berhasil ditolak atau di non-aktifkan!');
+        } else if ($user->status == 'tidak aktif') {
+            return redirect()->route('admin.user.index')->with('allreadyreject', 'User sudah ditolak atau di non-aktifkan!');
+        }
     }
 
     /**
@@ -62,10 +91,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
         return view('admin.user.edit', [
-            'admin' => $id
+            'user' => $user
         ]);
     }
 
@@ -76,9 +105,29 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user, UserProfile $userProfile)
     {
-        //
+        $rulesUser = [
+            'nama' => ['required', 'max:255'],
+            'email' => ['required', 'max:255', 'email'],
+        ];
+
+        $rulesProfile = [
+            'pekerjaan' => ['required', 'max:255'],
+            'no_telp' => ['required', 'max:255'],
+            'ktp_nik' => ['required', 'max:255'],
+        ];
+
+        $validatedData1 = $request->validate($rulesUser);
+        $validatedData2 = $request->validate($rulesProfile);
+
+        User::where('id', $user->id)
+            ->update($validatedData1);
+
+        UserProfile::where('id', $userProfile->id)
+            ->update($validatedData2);
+
+        return redirect()->route('admin.user.index')->with('success', 'Data User telah berhasil diubah !');
     }
 
     /**

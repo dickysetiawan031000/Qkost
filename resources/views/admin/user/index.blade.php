@@ -35,6 +35,33 @@
         </header>
         <div class="information d-flex flex-column gap-5">
             <div class="row px-1 mb-2 gap-5">
+                @if(session()->has('accept'))
+                <div class="alert alert-success alert-dismissible fade show col-lg-10" role="alert">
+                    <strong>{{ session('accept') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+
+                @if(session()->has('allreadyactive'))
+                <div class="alert alert-warning alert-dismissible fade show col-lg-10" role="alert">
+                    <strong>{{ session('allreadyactive') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+
+                @if(session()->has('allreadyreject'))
+                <div class="alert alert-warning alert-dismissible fade show col-lg-10" role="alert">
+                    <strong>{{ session('allreadyreject') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+
+                @if(session()->has('reject'))
+                <div class="alert alert-danger alert-dismissible fade show col-lg-10" role="alert">
+                    <strong>{{ session('reject') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
                 <div class="table-responsive col-lg-10">
 
                     <table class="table table-striped table-sm">
@@ -42,8 +69,8 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">NIK</th>
                                 <th scope="col">Email</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -53,24 +80,27 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $user->name }}</td>
-                                <td>{{ $user->user_profile->ktp_nik }}</td>
                                 <td>{{ $user->email }}</td>
+                                @if($user->status == 'aktif')
+                                <td><span class="badge bg-success">{{ $user->status }}</span></td>
+                                @elseif($user->status == 'tidak aktif')
+                                <td><span class="badge bg-danger">{{ $user->status }}</span></td>
+                                @else
+                                <td><span class="badge bg-warning">{{ $user->status }}</span></td>
+                                @endif
                                 <td>
+                                    <a href="{{ url('admin/user/accepted', $user->id) }}"
+                                        class="badge bg-success text-white" onclick="return confirm('Are you sure?')"><i
+                                            class="fa-solid fa-check"></i></a>
+
+                                    <a href="{{ url('admin/user/rejected', $user->id) }}"
+                                        class="badge bg-danger text-white" onclick="return confirm('Are you sure?')"><i
+                                            class="fa-solid fa-x"></i></a>
                                     <a href="{{ route('admin.user.show', $user->id) }}" class="badge bg-info">
                                         <i class="fa-solid fa-info"></i>
                                     </a>
                                     <a href="{{ route('admin.user.edit', $user->id) }}" class="badge bg-warning"><i
                                             class="fa-solid fa-pen-to-square"></i></a>
-
-                                    {{-- <form action=" {{ route('admin.jenis-kontrakan.destroy', $jenis->id) }} "
-                                        method="post" class="d-inline">
-                                        @csrf
-                                        @method('delete')
-
-                                        <button class="badge bg-danger border-0"
-                                            onclick="return confirm('Are you sure?')"><i
-                                                class="bi bi-trash2-fill"></i></button>
-                                    </form> --}}
 
                                 </td>
                             </tr>

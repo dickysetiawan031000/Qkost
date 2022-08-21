@@ -8,7 +8,7 @@
                 <div class="row align-items-md-stretch">
                     <h2 class="text-center mb-5">Visi & Misi</h2>
                     <div class="col-md-6">
-                        <div class="h-100 p-5 text-white bg-dark rounded-3">
+                        <div class="h-100 p-5 text-white rounded-3" style="background-color: #3844ac">
                             <h2>Visi</h2>
                             <p>Menjadi platform untuk melakukan pengelolaan keuangan pembayaran kontrakan.</p>
                         </div>

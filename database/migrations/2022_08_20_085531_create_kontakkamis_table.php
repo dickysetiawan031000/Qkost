@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTagihansTable extends Migration
+class CreateKontakkamisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateTagihansTable extends Migration
      */
     public function up()
     {
-        Schema::create('tagihans', function (Blueprint $table) {
+        Schema::create('kontakkamis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kontrakan_user_id');
-            $table->string('transaksi_id')->nullable();
-            $table->string('pembayaran_ke');
-            $table->date('jatuh_tempo');
+            $table->string('nama');
+            $table->string('no_telp');
+            $table->string('email');
+            $table->string('subjek');
+            $table->text('desc');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateTagihansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tagihans');
+        Schema::dropIfExists('kontakkamis');
     }
 }

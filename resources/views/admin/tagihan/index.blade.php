@@ -25,9 +25,30 @@
         </header>
         <div class="information d-flex flex-column gap-5">
             <div class="row px-1 mb-2 gap-5">
-                @if(session()->has('success'))
+                @if(session()->has('accepted'))
                 <div class="alert alert-success alert-dismissible fade show col-lg-10" role="alert">
-                    <strong>{{ session('success') }}</strong>
+                    <strong>{{ session('accepted') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+
+                @if(session()->has('allreadyactive'))
+                <div class="alert alert-warning alert-dismissible fade show col-lg-10" role="alert">
+                    <strong>{{ session('allreadyactive') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+
+                @if(session()->has('allreadyreject'))
+                <div class="alert alert-warning alert-dismissible fade show col-lg-10" role="alert">
+                    <strong>{{ session('allreadyreject') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+
+                @if(session()->has('reject'))
+                <div class="alert alert-danger alert-dismissible fade show col-lg-10" role="alert">
+                    <strong>{{ session('reject') }}</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 @endif
@@ -35,7 +56,7 @@
 
                     <a href="{{ route('admin.tagihan.create') }}" class="btn btn-primary mb-3"> <i
                             class="fa-solid fa-circle-plus"></i>&nbsp;Add</a>
-                    <table class="table table-striped table-sm">
+                    <table class="table table-striped table-sm text-center">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -58,10 +79,29 @@
                                 <td>{{ \App\Utilities\Helpers::formatCurrency($tagihan->kontrakan_user->harga, 'Rp.') }}
                                 <td class="text-center">{{ $tagihan->pembayaran_ke }}</td>
                                 <td>{{ $tagihan->transaksi->transaction_status ?? 'belum dibayar' }} </td>
+
+                                {{-- @if($tagihan->transaksi->transaction_status == 'settlement')
+                                <td><span class="badge bg-success">{{$tagihan->transaksi->transaction_status }}</span>
+                                </td>
+                                @elseif($tagihan->transaksi->transaction_status == 'pending')
+                                <td><span class="badge bg-danger">{{$tagihan->transaksi->transaction_status }}</span>
+                                </td>
+
+                                @else
+                                <td><span class="badge bg-warning">Belum Dibayar</span>
+                                </td>
+                                @endif --}}
                                 <td>{{ $tagihan->jatuh_tempo }}</td>
                                 </td>
                                 <td>
-                                    <a href="#" class="badge bg-info">
+                                    <a href="{{ url('admin/tagihan/settlement', $tagihan->id) }}"
+                                        class="badge bg-success text-white" onclick="return confirm('Are you sure?')"><i
+                                            class="fa-solid fa-check"></i></a>
+
+                                    <a href="{{ url('admin/tagihan/rejected', $tagihan->transaksi_id) }}"
+                                        class="badge bg-danger text-white" onclick="return confirm('Are you sure?')"><i
+                                            class="fa-solid fa-x"></i></a>
+                                    <a href="{{ route('admin.tagihan.show', $tagihan->id) }}" class="badge bg-info">
                                         <i class="fa-solid fa-info"></i>
                                     </a>
                                     <form action="#" method="post" class="d-inline">

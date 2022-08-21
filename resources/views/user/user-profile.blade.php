@@ -34,7 +34,7 @@
                     @csrf
                     <div class="mb-3">
                         <label for="ktp_image" class="form-label">KTP Image</label>
-                        <img src="img-fluid" alt="" id="ktp_image" style="width: 500px">
+                        <img src="img-fluid" alt="" id="ktp_image" style="width: 100%">
                         <input class="form-control mt-4 @error('ktp_image') is-invalid @enderror" type="file"
                             id="ktp_image" name="ktp_image" accept="imagektp/*" onchange="loadFile2(event)">
                     </div>

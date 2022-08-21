@@ -1,6 +1,8 @@
 @extends('layouts.main')
 
 @section('container')
+
+<!-- Main Content -->
 <main class="content">
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
@@ -20,8 +22,8 @@
     </nav>
     <section class="p-3">
         <header class="mb-4">
-            <h3>Penyewaan</h3>
-            <p>Data Penyewaan Kontrakan</p>
+            <h3>Kontak Kami</h3>
+            <p>Data Kontak Kami</p>
         </header>
         <div class="information d-flex flex-column gap-5">
             <div class="row px-1 mb-2 gap-5">
@@ -30,37 +32,40 @@
                     <strong>{{ session('success') }}</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
+
+                @elseif(session()->has('delete'))
+                <div class="alert alert-danger alert-dismissible fade show col-lg-10" role="alert">
+                    <strong>{{ session('delete') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
                 @endif
                 <div class="table-responsive col-lg-10">
 
-                    <a href="{{ route('admin.kontrakan-user.create') }}" class="btn btn-primary mb-3"> <i
-                            class="fa-solid fa-circle-plus"></i>&nbsp;Add</a>
+
                     <table class="table table-striped table-sm">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Penyewa</th>
-                                <th scope="col">Jenis Kontrakan</th>
-                                <th scope="col">Kamar</th>
-                                <th scope="col">Harga</th>
-                                {{-- <th scope="col">status</th> --}}
+                                <th scope="col">Nama</th>
+                                <th scope="col">No Telepon</th>
+                                <th scope="col">Subjek</th>
+                                <th scope="col">Deskripsi</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($kontrakan_user as $ku)
+                            @foreach($kontaks as $kontak)
 
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $ku->user->name }}</td>
-                                <td>{{ $ku->kontrakan->jenis_kontrakan->nama }}</td>
-                                <td>{{ $ku->kontrakan->kontrakan_detail->nomor }}</td>
-                                <td>{{ \App\Utilities\Helpers::formatCurrency($ku->harga, 'Rp.') }}</td>
+                                <td>{{ $kontak->nama }}</td>
+                                <td>{{ $kontak->email }}</td>
+                                <td>{{ $kontak->subjek }}</td>
+                                <td>{{ $kontak->desc }}</td>
                                 <td>
-                                    <a href="{{ route('admin.kontrakan-user.show', $ku->id) }}" class="badge bg-info">
-                                        <i class="fa-solid fa-info"></i>
-                                    </a>
-                                    <form action="#" method="post" class="d-inline">
+
+                                    <form action=" {{ route('admin.kontak-kami.destroy', $kontak->id) }} " method="post"
+                                        class="d-inline">
                                         @csrf
                                         @method('delete')
 
@@ -68,9 +73,9 @@
                                             onclick="return confirm('Are you sure?')"><i
                                                 class="fa-solid fa-trash-can"></i></button>
                                     </form>
+
                                 </td>
                             </tr>
-
                             @endforeach
                         </tbody>
                     </table>

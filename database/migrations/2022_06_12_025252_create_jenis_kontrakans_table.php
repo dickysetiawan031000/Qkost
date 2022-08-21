@@ -17,7 +17,7 @@ class CreateJenisKontrakansTable extends Migration
             $table->id();
             $table->string('nama');
             $table->string('alamat');
-            $table->integer('harga');
+            $table->integer('harga')->default(0);
             $table->timestamps();
         });
     }
