@@ -1,50 +1,82 @@
-@extends('user.layouts.main')
+@extends('layouts.main')
 
 @section('container')
 
-@if(session()->has('success'))
+<main class="content">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <div>
+                <button class="sidebarCollapseDefault btn p-0 border-0 d-none d-md-block" aria-label="Hamburger Button">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <button data-bs-toggle="offcanvas" data-bs-target=".sidebar" aria-controls="sidebar"
+                    aria-label="Hamburger Button" class="sidebarCollapseMobile btn p-0 border-0 d-block d-md-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+            <div class="d-flex align-items-center justify-content-end gap-4">
+                <p>Hai, Welcome Back <b>{{ auth()->user()->name }} !</b></p>
+                <img src="{{ \App\Models\User::has('user_profile')->whereId(Auth::id())->first() ? asset('avatar/' . auth()->user()->user_profile->avatar) : 'https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar-300x300.jpg' }}"
+                    alt="Photo Profile" class="avatar" />
+            </div>
+        </div>
+    </nav>
+    <section class="p-3">
+        <header>
+            <h3>My Profile</h3>
+            <p>Detail My Profile</p>
+        </header>
+        <div class="information d-flex flex-column gap-3">
+            <a href="{{ route('user.dashboard.index') }}" class="item-menu">
+                <i class="fa-solid fa-arrow-left-long"></i>
+                &nbsp; &nbsp;Back
+            </a>
+            <div class="row px-1 col-lg-8">
 
-<div class="alert alert-warning alert-dismissible fade show col-lg-6 mt-4" role="alert">
-    <strong>{{ session('success') }}</strong>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
-
-<div class="container mb-5">
-    <div class="col-lg-8">
-        <h4>Profile</h4>
-        <div class=" card col-lg-8">
-            <img src="{{ asset('ktp-image/' . auth()->user()->user_profile->ktp_image) }}" class="card-img-top"
-                alt="...">
-            <div class="card-body">
-                <table class="table">
+                <table class="table table-striped">
                     <tbody>
+                        <img class="mb-4"
+                            src="{{ \App\Models\User::has('user_profile')->whereId(Auth::id())->first() ? asset('ktp-image/' . auth()->user()->user_profile->ktp_image) : 'https://glints.com/id/lowongan/wp-content/uploads/2021/10/watermark.png' }}"
+                            alt="" style="width: 450px; height:250px">
+                        <tr>
+                            <td>Nama Lengkap</td>
+                            <td>{{ auth()->user()->name }}</td>
+                        </tr>
                         <tr>
                             <td>NIK</td>
                             <td>{{ auth()->user()->user_profile->ktp_nik }}</td>
-
                         </tr>
                         <tr>
-                            <td>Nama</td>
-                            <td>{{ auth()->user()->name }}</td>
+                            <td>Email</td>
+                            <td>{{ auth()->user()->email }}</td>
+                        </tr>
 
-                        </tr>
-                        <tr>
-                            <td>No Telpon</td>
-                            <td>{{ auth()->user()->user_profile->no_telp }}</td>
-                        </tr>
                         <tr>
                             <td>Pekerjaan</td>
                             <td>{{ auth()->user()->user_profile->pekerjaan }}</td>
                         </tr>
                         <tr>
-                            <td>Dibuat Pada</td>
-                            <td>{{ auth()->user()->user_profile->created_at->diffForHumans() }}</td>
+                            <td>Nomor Telepon</td>
+                            <td>{{auth()->user()->user_profile->no_telp}}</td>
+                        </tr>
+                        <tr>
+                            <td>Dibuat pada</td>
+                            <td>{{ '-' ?? auth()->user()->created_at->diffForHumans() }}</td>
+                        </tr>
+                        <tr>
+                            <td style="background-color:white">
+                                <a href="{{ route('user.myprofile.edit', auth()->user()->id) }}"
+                                    class="badge bg-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <button class="btn btn-primary"> Ubah Password</button>
+                            </td>
+                            <td style="background-color:white"></td>
                         </tr>
                     </tbody>
+
+
                 </table>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 @endsection

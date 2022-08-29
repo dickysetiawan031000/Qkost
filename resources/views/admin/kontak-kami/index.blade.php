@@ -42,14 +42,13 @@
                 <div class="table-responsive col-lg-10">
 
 
-                    <table class="table table-striped table-sm">
+                    <table class="table table-striped table-sm" id="myTable">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nama</th>
-                                <th scope="col">No Telepon</th>
                                 <th scope="col">Subjek</th>
-                                <th scope="col">Deskripsi</th>
+                                <th scope="col">No Telepon</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -59,11 +58,12 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $kontak->nama }}</td>
-                                <td>{{ $kontak->email }}</td>
                                 <td>{{ $kontak->subjek }}</td>
-                                <td>{{ $kontak->desc }}</td>
+                                <td>{{ $kontak->email }}</td>
                                 <td>
-
+                                    <a href="{{ route('admin.kontak-kami.show', $kontak->id) }}" class="badge bg-info">
+                                        <i class="fa-solid fa-info"></i>
+                                    </a>
                                     <form action=" {{ route('admin.kontak-kami.destroy', $kontak->id) }} " method="post"
                                         class="d-inline">
                                         @csrf

@@ -19,7 +19,7 @@ class DashboardMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!User::has('user_profile')->whereId(Auth::id())->first()) {
-            return redirect()->route('user.user-profile.index');
+            return redirect()->route('user.user-profile.create');
         }
 
         return $next($request);

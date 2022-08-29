@@ -37,7 +37,7 @@
 
                     <a href="{{ route('admin.jenis-kontrakan.create') }}" class="btn btn-primary mb-3"> <i
                             class="fa-solid fa-circle-plus"></i>&nbsp;Add</a>
-                    <table class="table table-striped table-sm">
+                    <table class="table table-striped table-sm" id="myTable">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -59,16 +59,9 @@
                                     <a href="{{ route('admin.jenis-kontrakan.edit', $jenis->id) }}"
                                         class="badge bg-warning"><i class="fa-solid fa-pen-to-square"></i></a>
 
-                                    <form action=" {{ route('admin.jenis-kontrakan.destroy', $jenis->id) }} "
-                                        method="post" class="d-inline">
-                                        @csrf
-                                        @method('delete')
-
-                                        <button class="badge bg-danger border-0"
-                                            onclick="return confirm('Are you sure?')"><i
-                                                class="fa-solid fa-trash-can"></i></button>
-                                    </form>
-
+                                    <a href="#" class="badge bg-danger border-0 delete" id="delete"
+                                        data-id="{{ $jenis->id }}" data-nama="{{ $jenis->nama }}"><i
+                                            class="fa-solid fa-trash-can"></i></a>
                                 </td>
                             </tr>
                             @endforeach
@@ -80,3 +73,31 @@
     </section>
 </main>
 @endsection
+
+@push('js')
+<script>
+    $('.delete').click(function(){
+        var idjenis = $(this).attr('data-id');
+        var nama = $(this).attr('data-nama');
+         
+        swal({
+        title: "Apakah anda yakin?",
+        text: "Anda akan menghapus data dengan nama "+nama+"!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        })
+        .then((willDelete) => {
+        if (willDelete) {
+        window.location =  "jenis-kontrakan/destroy/"+idjenis+""
+        swal("Data berhasil dihapus!", {
+        icon: "success",
+        });
+        } else {
+        swal("Data tidak dihapus!");
+        }
+        });
+    });
+ 
+</script>
+@endpush

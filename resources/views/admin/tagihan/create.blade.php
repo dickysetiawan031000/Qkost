@@ -26,7 +26,7 @@
             <p>Tambah Data Tagihan Penyewaan</p>
         </header>
         <div class="information d-flex flex-column gap-3">
-            <a href="{{ route('admin.kontrakan-user.index') }}" class="item-menu">
+            <a href="{{ route('admin.tagihan.index') }}" class="item-menu">
                 <i class="fa-solid fa-arrow-left-long"></i>
                 &nbsp; &nbsp;Back
             </a>

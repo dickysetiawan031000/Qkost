@@ -37,14 +37,14 @@
 
                     <a href="{{ route('admin.kontrakan.create') }}" class="btn btn-primary mb-3"> <i
                             class="fa-solid fa-circle-plus"></i>&nbsp;Add</a>
-                    <table class="table table-striped table-sm">
+                    <table class="table table-striped table-sm text-center" id="myTable">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nomor Kontrakan</th>
                                 <th scope="col">Jenis Kontrakan</th>
                                 <th scope="col">Harga</th>
-                                {{-- <th scope="col">status</th> --}}
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -53,14 +53,32 @@
 
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $kontrakan->kontrakan_detail->nomor }}</td>
-                                <td>{{ $kontrakan->jenis_kontrakan->nama }}</td>
-                                <td>{{ $kontrakan->jenis_kontrakan->harga }}</td>
+                                <td>{{ $kontrakan->kontrakan_detail->nomor ?? '' }}</td>
+                                <td>{{ $kontrakan->jenis_kontrakan->nama ?? '' }}</td>
+                                <td>{{ $kontrakan->jenis_kontrakan->harga ?? '' }}</td>
+
+                                @if( $kontrakan->kontrakan_detail->status == 'kosong')
+                                <td><span class="badge bg-success">{{ $kontrakan->kontrakan_detail->status }}</span>
+                                </td>
+                                @elseif($kontrakan->kontrakan_detail->status == 'isi')
+                                <td><span class="badge bg-danger">{{ $kontrakan->kontrakan_detail->status }}</span></td>
+                                @else
+                                <td><span class="badge bg-warning">{{ $kontrakan->kontrakan_detail->status }}</span>
+                                </td>
+                                @endif
                                 {{-- <td>{{ $kontrakan->kontrakan_detail->status }}</td> --}}
                                 <td>
+                                    <a href="{{ route('admin.kontrakan.edit', $kontrakan->id) }}"
+                                        class="badge bg-warning"><i class="fa-solid fa-pen-to-square"></i></a>
                                     <a href="{{ route('admin.kontrakan.show', $kontrakan->id) }}"
                                         class="badge bg-info"><i class="fa-solid fa-info"></i></a>
-                                    <form action=" {{ route('admin.kontrakan.destroy', $kontrakan->id) }} "
+
+                                    <a href="#" class="badge bg-danger border-0 delete" id="delete"
+                                        data-id="{{ $kontrakan->id }}"
+                                        data-nama="{{ $kontrakan->kontrakan_detail->nomor }}"><i
+                                            class="fa-solid fa-trash-can"></i></a>
+
+                                    {{-- <form action=" {{ route('admin.kontrakan.destroy', $kontrakan->id) }} "
                                         method="post" class="d-inline">
                                         @csrf
                                         @method('delete')
@@ -68,7 +86,7 @@
                                         <button class="badge bg-danger border-0"
                                             onclick="return confirm('Are you sure?')"><i
                                                 class="fa-solid fa-trash-can"></i></button>
-                                    </form>
+                                    </form> --}}
                                 </td>
                             </tr>
                             @endforeach
@@ -80,3 +98,31 @@
     </section>
 </main>
 @endsection
+
+@push('js')
+<script>
+    $('.delete').click(function(){
+        var id = $(this).attr('data-id');
+        var nama = $(this).attr('data-nama');
+         
+        swal({
+        title: "Apakah anda yakin?",
+        text: "Anda akan menghapus data dengan nama "+nama+"!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        })
+        .then((willDelete) => {
+        if (willDelete) {
+        window.location =  "jenis-kontrakan/destroy/"+id+""
+        swal("Data berhasil dihapus!", {
+        icon: "success",
+        });
+        } else {
+        swal("Data tidak dihapus!");
+        }
+        });
+    });
+ 
+</script>
+@endpush

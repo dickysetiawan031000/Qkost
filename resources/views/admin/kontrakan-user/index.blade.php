@@ -35,7 +35,7 @@
 
                     <a href="{{ route('admin.kontrakan-user.create') }}" class="btn btn-primary mb-3"> <i
                             class="fa-solid fa-circle-plus"></i>&nbsp;Add</a>
-                    <table class="table table-striped table-sm">
+                    <table class="table table-striped table-sm" id="myTable">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -53,13 +53,15 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $ku->user->name }}</td>
-                                <td>{{ $ku->kontrakan->jenis_kontrakan->nama }}</td>
-                                <td>{{ $ku->kontrakan->kontrakan_detail->nomor }}</td>
+                                <td>{{ $ku->kontrakan->jenis_kontrakan->nama ?? '-' }}</td>
+                                <td>{{ $ku->kontrakan->kontrakan_detail->nomor ?? '-' }}</td>
                                 <td>{{ \App\Utilities\Helpers::formatCurrency($ku->harga, 'Rp.') }}</td>
                                 <td>
                                     <a href="{{ route('admin.kontrakan-user.show', $ku->id) }}" class="badge bg-info">
                                         <i class="fa-solid fa-info"></i>
                                     </a>
+                                    <a href="{{ route('admin.kontrakan-user.edit', $ku->id) }}"
+                                        class="badge bg-warning"><i class="fa-solid fa-pen-to-square"></i></a>
                                     <form action="#" method="post" class="d-inline">
                                         @csrf
                                         @method('delete')

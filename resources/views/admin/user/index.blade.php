@@ -2,14 +2,6 @@
 
 @section('container')
 
-@if(session()->has('success'))
-
-<div class="alert alert-success alert-dismissible fade show col-lg-10" role="alert">
-    <strong>{{ session('success') }}</strong>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
-
 <!-- Main Content -->
 <main class="content">
     <nav class="navbar navbar-expand-lg">
@@ -35,6 +27,14 @@
         </header>
         <div class="information d-flex flex-column gap-5">
             <div class="row px-1 mb-2 gap-5">
+                @if(session()->has('success'))
+
+                <div class="alert alert-success alert-dismissible fade show col-lg-10" role="alert">
+                    <strong>{{ session('success') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @endif
+
                 @if(session()->has('accept'))
                 <div class="alert alert-success alert-dismissible fade show col-lg-10" role="alert">
                     <strong>{{ session('accept') }}</strong>
@@ -64,7 +64,7 @@
                 @endif
                 <div class="table-responsive col-lg-10">
 
-                    <table class="table table-striped table-sm">
+                    <table class="table table-striped table-sm" id="myTable">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -89,6 +89,8 @@
                                 <td><span class="badge bg-warning">{{ $user->status }}</span></td>
                                 @endif
                                 <td>
+                                    @if($user->user_profile()->exists())
+
                                     <a href="{{ url('admin/user/accepted', $user->id) }}"
                                         class="badge bg-success text-white" onclick="return confirm('Are you sure?')"><i
                                             class="fa-solid fa-check"></i></a>
@@ -101,6 +103,18 @@
                                     </a>
                                     <a href="{{ route('admin.user.edit', $user->id) }}" class="badge bg-warning"><i
                                             class="fa-solid fa-pen-to-square"></i></a>
+                                    @else
+                                    <a href="{{ url('admin/user/accepted', $user->id) }}"
+                                        class="badge bg-success text-white" onclick="return confirm('Are you sure?')"><i
+                                            class="fa-solid fa-check"></i></a>
+
+                                    <a href="{{ url('admin/user/rejected', $user->id) }}"
+                                        class="badge bg-danger text-white" onclick="return confirm('Are you sure?')"><i
+                                            class="fa-solid fa-x"></i></a>
+                                    <a href="{{ route('admin.user.show', $user->id) }}" class="badge bg-info">
+                                        <i class="fa-solid fa-info"></i>
+                                    </a>
+                                    @endif
 
                                 </td>
                             </tr>

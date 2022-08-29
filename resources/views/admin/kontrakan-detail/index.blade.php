@@ -3,9 +3,6 @@
 @section('container')
 
 @if(session()->has('success'))
-{{-- <div class="alert alert-success col-lg-8" role="alert">
-    {{ session('success') }}
-</div> --}}
 
 <div class="alert alert-warning alert-dismissible fade show col-lg-10" role="alert">
     <strong>{{ session('success') }}</strong>

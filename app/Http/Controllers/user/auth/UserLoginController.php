@@ -36,7 +36,8 @@ class UserLoginController extends Controller
                     return redirect()->route('user.dashboard.index');
                 }
 
-                return redirect()->intended('/user/user-profile');
+                // return redirect()->intended('user/user-profile');
+                return redirect()->route('user.user-profile.create');
             } else {
                 return back()->with('menunggu verifikasi', 'Akun anda harus diverifikasi terlebih dahulu oleh admin!');
             }

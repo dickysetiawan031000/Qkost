@@ -68,11 +68,24 @@
                 <i class="fa-solid fa-credit-card"></i>
                 &nbsp; &nbsp;Transaksi
             </a>
-            <form action="/logout" method="post">
-                @csrf
-                <button type="submit" class="item-menu border-0" style="background-color:rgba(0, 0, 0, 0)">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp; &nbsp; Logout</button>
-            </form>
+            <div class="menu mt-4">
+                <p>Others</p>
+                <a href="{{ route('user.user-profile.index') }}"
+                    class="item-menu {{ Request::is('user/myprofile*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-address-card"></i>
+                    &nbsp; &nbsp;My Profile
+                </a>
+                {{-- <a href="{{ route('user.password.index') }}"
+                    class="item-menu {{ Request::is('user/transaksi*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-key"></i>
+                    &nbsp; &nbsp;Ubah Password
+                </a> --}}
+                <form action="/logout" method="post">
+                    @csrf
+                    <button type="submit" class="item-menu border-0" style="background-color:rgba(0, 0, 0, 0)">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp; &nbsp; Logout</button>
+                </form>
+            </div>
             @endif
 
         </div>

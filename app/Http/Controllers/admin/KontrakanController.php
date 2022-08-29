@@ -88,9 +88,14 @@ class KontrakanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Kontrakan $kontrakan)
     {
-        //
+        $jenis_kontrakan = JenisKontrakan::all();
+        return view('admin.kontrakan.edit', [
+            'kontrakan' => $kontrakan,
+            'jenis_kontrakan' => $jenis_kontrakan,
+
+        ]);
     }
 
     /**
@@ -100,9 +105,17 @@ class KontrakanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Kontrakan $kontrakan)
     {
-        //
+
+        $request->validate([
+            'nomor' => ['required'],
+            'jenis_kontrakan_id' => ['required', 'max:255']
+        ]);
+
+        $kontrakan->update(['jenis_kontrakan_id' => $request->jenis_kontrakan_id]);
+        $kontrakan->kontrakan_detail()->update(['nomor' => $request->nomor]);
+        return redirect()->route('admin.kontrakan.index')->with('success', 'Kontrakan telah berhasil diubah !');
     }
 
     /**
@@ -111,11 +124,17 @@ class KontrakanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kontrakan $kontrakan)
+    public function destroy($id)
     {
-        Kontrakan::destroy($kontrakan->id);
+        // dd($kontrakan);
 
-        // $register_patient->testResult ? $register_patient->testResult->delete() : $register_patient->delete();
+        $kontrakan = Kontrakan::find($id);
+        $kontrakan->delete();
+
+        // return redirect()->route('admin.jenis-kontrakan.index');
+
+        // Kontrakan::destroy($kontrakan->id);
+
         $kontrakan->kontrakan_user ? $kontrakan->kontrakan_user->delete() : $kontrakan->delete();
 
         return redirect()->route('admin.kontrakan.index');

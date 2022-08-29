@@ -16,6 +16,7 @@ use App\Http\Controllers\user\auth\UserRegistrationController;
 use App\Http\Controllers\user\CheckProfileController;
 use App\Http\Controllers\user\DashboardController;
 use App\Http\Controllers\user\KontrakanUserController as UserKontrakanUserController;
+use App\Http\Controllers\user\PasswordController;
 use App\Http\Controllers\user\TagihanController as UserTagihanController;
 use App\Http\Controllers\user\TransaksiController;
 use App\Http\Controllers\user\UserProfileController;
@@ -54,12 +55,11 @@ Route::resource('/registrasi', UserRegistrationController::class);
 Route::group(['middleware' => ['auth', 'checkRole:2']], function () {
     //User
     Route::prefix('user')->name('user.')->group(function () {
-        Route::resource('user-profile', UserProfileController::class);
+        Route::resource('/user-profile', UserProfileController::class);
         Route::resource('/dashboard', DashboardController::class);
-        Route::resource('/myprofile', CheckProfileController::class);
-        // Route::resource('/tagihan', UserTagihanController::class);
         Route::resource('/kontrakan-user', UserKontrakanUserController::class);
         Route::resource('/transaksi', TransaksiController::class);
+        Route::resource('/password', PasswordController::class);
     });
 });
 
@@ -68,10 +68,12 @@ Route::group(['middleware' => ['auth', 'checkRole:1']], function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('/dashboard', AdminDashboardController::class);
         Route::resource('/jenis-kontrakan', JenisKontrakanController::class);
+        Route::get('jenis-kontrakan/destroy/{id}', [JenisKontrakanController::class, 'destroy']);
         Route::resource('/user', AdminUserController::class);
         Route::get('user/accepted/{id}', [AdminUserController::class, 'accepted']);
         Route::get('user/rejected/{id}', [AdminUserController::class, 'rejected']);
         Route::resource('/kontrakan', AdminKontrakanController::class);
+        Route::get('kontrakan/destroy/{id}', [AdminKontrakanController::class, 'destroy']);
         Route::resource('/kontrakan-user', KontrakanUserController::class);
         Route::resource('/kontrakan-detail', KontrakanDetailController::class);
         Route::resource('/kontrakan-isi', KontrakanIsiController::class);
@@ -81,26 +83,3 @@ Route::group(['middleware' => ['auth', 'checkRole:1']], function () {
         Route::resource('/kontak-kami', AdminKontakKamiController::class);
     });
 });
-
-
-
-
-
-// Route::get('/user/profile', function () {
-//     return view('user.profile.index');
-// });
-
-// Route::get('/user/data-diri', function () {
-//     return view('user.data-diri');
-// })->middleware('auth');
-
-// Route::get('/user/index', function () {
-//     return view('user.index');
-// })->middleware('auth')->name('user-index');
-
-// Route::resource('/dashboard/kontrakan-detail', KontrakanDetailController::class);
-// Route::resource('/dashboard/kontrakan', KontrakanController::class);
-// Route::resource('/login', LoginController::class, 'authenticate');
-
-
-// Route::resource('/dashboard', UserProfileController::class);

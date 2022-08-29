@@ -6,10 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\UserProfile;
-
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class CheckProfileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('dashboardMiddleware');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +22,7 @@ class CheckProfileController extends Controller
     public function index()
     {
         return view('user.profile.index', [
-            'user' => User::get()
+            'user' => User::with('user_profile')->where('id', auth()->user()->id)->get()
         ]);
     }
 
@@ -60,9 +64,11 @@ class CheckProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(UserProfile $userProfile)
     {
-        //
+        return view('user.profile.edit', [
+            'userProfile' => $userProfile
+        ]);
     }
 
     /**

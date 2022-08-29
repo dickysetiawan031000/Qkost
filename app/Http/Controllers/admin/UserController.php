@@ -105,27 +105,29 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user, UserProfile $userProfile)
+    public function update(Request $request, User $user)
     {
-        $rulesUser = [
-            'nama' => ['required', 'max:255'],
-            'email' => ['required', 'max:255', 'email'],
-        ];
 
-        $rulesProfile = [
+        $request->validate([
+            'name' => ['required', 'max:255'],
+            'email' => ['required', 'max:255', 'email'],
             'pekerjaan' => ['required', 'max:255'],
             'no_telp' => ['required', 'max:255'],
             'ktp_nik' => ['required', 'max:255'],
-        ];
+        ]);
 
-        $validatedData1 = $request->validate($rulesUser);
-        $validatedData2 = $request->validate($rulesProfile);
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
 
-        User::where('id', $user->id)
-            ->update($validatedData1);
+        $user->user_profile()->update([
+            'pekerjaan' => $request->pekerjaan,
+            'no_telp' => $request->no_telp,
+            'ktp_nik' => $request->ktp_nik
+        ]);
 
-        UserProfile::where('id', $userProfile->id)
-            ->update($validatedData2);
+
 
         return redirect()->route('admin.user.index')->with('success', 'Data User telah berhasil diubah !');
     }

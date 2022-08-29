@@ -102,9 +102,15 @@ class JenisKontrakanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(JenisKontrakan $jenisKontrakan)
+    public function destroy($id)
     {
-        JenisKontrakan::destroy($jenisKontrakan->id);
+
+        // dd($id);
+        $jenis = JenisKontrakan::find($id);
+        $jenis->delete();
+
+        // $jenis->kontrakan ? $jenis->kontrakan->delete() : $jenis->delete();
+
         return redirect()->route('admin.jenis-kontrakan.index');
     }
 }

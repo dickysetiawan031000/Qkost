@@ -37,9 +37,9 @@
 
                 <div class="table-responsive col-lg-10">
 
-                    <table class="table table-striped table-sm">
+                    <table class="table table-striped table-sm" id="myTable">
                         <thead>
-                            <tr class="text-center">
+                            <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Pembayaran Ke</th>
                                 <th scope="col">Harga</th>
@@ -50,10 +50,10 @@
                         <tbody>
 
                             @foreach($getData as $d)
-                            <tr class="text-center">
+                            <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $d->pembayaran_ke }}</td>
-                                <td>{{ $d->kontrakan_user->harga }}</td>
+                                <td>{{ $d->transaksi->gross_amount ?? 'Belum Dibayar' }} </td>
                                 <td>{{ $d->jatuh_tempo }}</td>
                                 <td>
 

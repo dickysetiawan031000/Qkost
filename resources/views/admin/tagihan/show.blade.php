@@ -52,17 +52,20 @@
 
                                         <tr>
                                             <td>Kamar</td>
-                                            <td>{{ $tagihan->kontrakan_user->kontrakan->jenis_kontrakan->nama }}</td>
+                                            <td>{{ $tagihan->kontrakan_user->kontrakan->jenis_kontrakan->nama ?? '-' }}
+                                            </td>
 
                                         </tr>
                                         <tr>
                                             <td>No Kamar</td>
-                                            <td>{{ $tagihan->kontrakan_user->kontrakan->kontrakan_detail->nomor }}</td>
+                                            <td>{{ $tagihan->kontrakan_user->kontrakan->kontrakan_detail->nomor ?? '-'
+                                                }}</td>
 
                                         </tr>
                                         <tr>
                                             <td>Alamat</td>
-                                            <td>{{ $tagihan->kontrakan_user->kontrakan->jenis_kontrakan->alamat }}</td>
+                                            <td>{{ $tagihan->kontrakan_user->kontrakan->jenis_kontrakan->alamat ?? '-'
+                                                }}</td>
 
                                         </tr>
                                     </tbody>
@@ -86,13 +89,14 @@
                                         <tr>
                                             <td>Harga</td>
                                             <td>{{
-                                                \App\Utilities\Helpers::formatCurrency($tagihan->kontrakan_user->harga,
+                                                \App\Utilities\Helpers::formatCurrency( 0 ??
+                                                $tagihan->kontrakan_user->harga,
                                                 'Rp.') }}
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Jatuh Tempo</td>
-                                            <td>{{ $tagihan->jatuh_tempo }}</td>
+                                            <td>{{ $tagihan->jatuh_tempo ?? '-' }}</td>
 
                                         </tr>
                                         <tr>

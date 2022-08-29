@@ -56,7 +56,7 @@
 
                     <a href="{{ route('admin.tagihan.create') }}" class="btn btn-primary mb-3"> <i
                             class="fa-solid fa-circle-plus"></i>&nbsp;Add</a>
-                    <table class="table table-striped table-sm text-center">
+                    <table class="table table-striped table-sm text-center" id="myTable">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -65,7 +65,7 @@
                                 <th scope="col">Harga</th>
                                 <th scope="col">Tagihan Ke</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">Jatuh Tempo</th>
+                                {{-- <th scope="col">Jatuh Tempo</th> --}}
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -75,23 +75,11 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $tagihan->kontrakan_user->user->name }}</td>
-                                <td>{{ $tagihan->kontrakan_user->kontrakan->kontrakan_detail->nomor }}</td>
+                                <td>{{ $tagihan->kontrakan_user->kontrakan->kontrakan_detail->nomor ?? '-' }}</td>
                                 <td>{{ \App\Utilities\Helpers::formatCurrency($tagihan->kontrakan_user->harga, 'Rp.') }}
                                 <td class="text-center">{{ $tagihan->pembayaran_ke }}</td>
                                 <td>{{ $tagihan->transaksi->transaction_status ?? 'belum dibayar' }} </td>
-
-                                {{-- @if($tagihan->transaksi->transaction_status == 'settlement')
-                                <td><span class="badge bg-success">{{$tagihan->transaksi->transaction_status }}</span>
-                                </td>
-                                @elseif($tagihan->transaksi->transaction_status == 'pending')
-                                <td><span class="badge bg-danger">{{$tagihan->transaksi->transaction_status }}</span>
-                                </td>
-
-                                @else
-                                <td><span class="badge bg-warning">Belum Dibayar</span>
-                                </td>
-                                @endif --}}
-                                <td>{{ $tagihan->jatuh_tempo }}</td>
+                                {{-- <td>{{ $tagihan->jatuh_tempo }}</td> --}}
                                 </td>
                                 <td>
                                     <a href="{{ url('admin/tagihan/settlement', $tagihan->id) }}"

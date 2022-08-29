@@ -94,9 +94,17 @@ class KontrakanUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(KontrakanUser $kontrakanUser)
     {
-        //
+        // $users = User::has('user_profile')->doesntHave('kontrakan_user')->get();
+        // $kontrakan = KontrakanDetail::with('kontrakan.jenis_kontrakan')->whereDoesntHave('kontrakan.kontrakan_user')->get();
+
+        return view('admin.kontrakan-user.edit', [
+            'kontrakanUser' => $kontrakanUser,
+            'users' => User::has('user_profile')->get(),
+            'kontrakans' => KontrakanDetail::with('kontrakan.jenis_kontrakan')->get()
+
+        ]);
     }
 
     /**
@@ -106,9 +114,30 @@ class KontrakanUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, KontrakanUser $kontrakanUser)
     {
-        //
+        $request->validate([
+            'user_id' => ['required'],
+            'kontrakan_id' => ['required'],
+        ]);
+
+
+        $harga = Kontrakan::query()->with(['jenis_kontrakan' => function ($q) {
+            $q->select('id', 'harga');
+        }])->whereId($request->kontrakan_id)->first();
+
+        $kontrakanUser->update([
+            'user_id' => $request->user_id,
+            'kontrakan_id' => $request->kontrakan_id,
+            'harga' => $harga->jenis_kontrakan->harga
+
+        ]);
+        KontrakanDetail::whereKontrakanId($request->kontrakan_id)->update([
+            'status' => 'isi'
+        ]);
+
+
+        return redirect()->route('admin.kontrakan-user.index')->with('success', 'Penyewaan telah berhasil diubah !');
     }
 
     /**

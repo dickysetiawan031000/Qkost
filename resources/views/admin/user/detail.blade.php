@@ -47,12 +47,17 @@
                             <div class="col">
 
                                 <table class="table table-striped">
-                                    <img class="mb-4" src="{{ asset('ktp-image/' . $users->user_profile->ktp_image) }}"
+                                    {{-- <img
+                                        src="{{ \App\Models\User::has('user_profile')->whereId(Auth::id())->first() ? asset('avatar/' . auth()->user()->user_profile->avatar) : 'https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar-300x300.jpg' }}"
+                                        alt="Photo Profile" class="avatar" /> --}}
+                                    <img class="mb-4"
+                                        src="{{ \App\Models\User::has('user_profile')->whereId(Auth::id())->first() ? asset('ktp-image/' . $users->user_profile->ktp_image) : 'https://glints.com/id/lowongan/wp-content/uploads/2021/10/watermark.png' }}"
                                         alt="" style="width: 450px; height:250px">
                                     <tbody>
                                         <tr>
                                             <td>NIK</td>
-                                            <td>{{ $users->user_profile->ktp_nik }}</td>
+                                            <td>{{ $users->user_profile->ktp_nik ?? '-' }}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Nama</td>
@@ -60,11 +65,13 @@
                                         </tr>
                                         <tr>
                                             <td>No Telpon</td>
-                                            <td>{{ $users->user_profile->no_telp }}</td>
+                                            <td>{{ $users->user_profile->no_telp ?? '-' }}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Pekerjaan</td>
-                                            <td>{{ $users->user_profile->pekerjaan }}</td>
+                                            <td>{{ $users->user_profile->pekerjaan ?? '-' }}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Email</td>
@@ -72,7 +79,7 @@
                                         </tr>
                                         <tr>
                                             <td>Dibuat pada
-                                            <td>{{ $users->created_at->diffForHumans() }}</td>
+                                            <td>{{ '-' ?? $users->created_at->diffForHumans() }} </td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -22,10 +22,10 @@
     <section class="p-3">
         <header>
             <h3>Detail</h3>
-            <p>Detail Profile Penyewa</p>
+            <p>Detail Penyewaan</p>
         </header>
         <div class="information d-flex flex-column gap-3">
-            <a href="{{ route('admin.user.index') }}" class="item-menu">
+            <a href="{{ route('admin.kontrakan-user.index') }}" class="item-menu">
                 <i class="fa-solid fa-arrow-left-long"></i>
                 &nbsp; &nbsp;Back
             </a>
@@ -73,7 +73,7 @@
                                         </tr>
                                         <tr>
                                             <td>Dibuat pada
-                                            <td>{{ $kontrakanUser->user->created_at->diffForHumans() }}</td>
+                                            <td>{{ '-' ??$kontrakanUser->user->created_at->diffForHumans() }}</td>
                                         </tr>
                                     </tbody>
                                 </table>

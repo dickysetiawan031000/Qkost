@@ -15,7 +15,9 @@ class CreateKontrakansTable extends Migration
     {
         Schema::create('kontrakans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('jenis_kontrakan_id');
+            $table->foreignId('jenis_kontrakan_id')->constrained()->onDelete('cascade');
+            // $table->unsignedBigInteger('jenis_kontrakan_id');
+            // // $table->foreign('jenis_kontrakan_id')->references('id')->on('jenis_kontrakans')->onDelete('cascade');
             $table->timestamps();
         });
     }

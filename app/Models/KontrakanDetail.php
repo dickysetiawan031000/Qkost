@@ -35,8 +35,8 @@ class KontrakanDetail extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function kontrakan_isi(): HasMany
-    {
-        return $this->hasMany(KontrakanIsi::class);
-    }
+    // public function kontrakan_isi(): HasMany
+    // {
+    //     return $this->hasMany(KontrakanIsi::class);
+    // }
 }

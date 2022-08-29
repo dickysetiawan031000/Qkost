@@ -46,9 +46,11 @@ class KontakKamiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(KontakKami $kontakKami)
     {
-        //
+        return view('admin.kontak-kami.detail', [
+            'kontakkamis' => $kontakKami
+        ]);
     }
 
     /**
